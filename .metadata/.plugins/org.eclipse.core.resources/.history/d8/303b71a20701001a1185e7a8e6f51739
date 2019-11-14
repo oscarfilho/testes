@@ -1,0 +1,7 @@
+package br.com.estudos.ProjetoTestes;
+
+import java.io.Serializable;
+
+public class Customer implements Serializable {
+
+}

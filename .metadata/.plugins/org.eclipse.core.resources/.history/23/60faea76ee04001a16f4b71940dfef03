@@ -1,0 +1,18 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class AcessoDB {
+
+	public static String url = "";
+	public static String usuario = "";
+	public static String senha = "";
+	
+	public static Connection conn = null;
+	
+	public static void connectToDB()
+	{
+		conn = DriverManager.getConnection(url, user, senha)
+	}
+	
+	
+}

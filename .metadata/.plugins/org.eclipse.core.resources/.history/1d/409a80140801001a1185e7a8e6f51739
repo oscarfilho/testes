@@ -1,0 +1,19 @@
+package br.com.estudos.ProjetoTestes;
+
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "customer")
+public class Customer implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@Column(name = "custID", unique = true)
+	private int id;
+	
+	
+	
+}

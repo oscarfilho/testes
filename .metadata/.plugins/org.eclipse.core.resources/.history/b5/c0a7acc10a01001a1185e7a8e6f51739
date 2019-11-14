@@ -1,0 +1,38 @@
+package br.com.estudos.ProjetoTestes;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class TestSystem {
+
+	private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+			.createEntityManagerFactory("ProjetoTestes");
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ENTITY_MANAGER_FACTORY.close();
+	}
+	
+	private static void addCustomer(int id, String fname, String lname) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		
+		EntityTransaction et = null;
+		
+		try {
+			et = em.getTransaction();
+			et.begin(); 
+			
+			Customer cust = new Customer();
+			cust.setID(id);
+			cust.setfName(fname);
+			cust.setlName(lname);
+			
+			em.persist(cust);
+			
+			et.commit();
+		}
+	}
+
+}

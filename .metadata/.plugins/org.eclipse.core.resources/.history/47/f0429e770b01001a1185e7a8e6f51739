@@ -1,0 +1,69 @@
+package br.com.estudos.ProjetoTestes;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
+public class TestSystem {
+
+	private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+			.createEntityManagerFactory("ProjetoTestes");
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ENTITY_MANAGER_FACTORY.close();
+	}
+	
+	private static void addCustomer(int id, String fname, String lname) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		
+		EntityTransaction et = null;
+		
+		try {
+			et = em.getTransaction();
+			et.begin(); 
+			
+			Customer cust = new Customer();
+			cust.setID(id);
+			cust.setfName(fname);
+			cust.setlName(lname);
+			
+			em.persist(cust);
+			
+			et.commit();
+		}catch (Exception e) {
+			if(et != null) {
+				et.rollback();
+			}
+			e.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	private static void getCustomer(int id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		
+		String query = "SELECT c FROM Customer c WHERE c.id = :custID";
+		
+		TypedQuery<Customer> tq = em.createQuery(query, Customer.class);
+		tq.setParameter("CustID", id);
+		
+		Customer cust = null;
+		
+		try {
+			cust = tq.getSingleResult();
+			System.out.println(cust.getfName() + " " +
+				cust.getfName());
+		}catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+}

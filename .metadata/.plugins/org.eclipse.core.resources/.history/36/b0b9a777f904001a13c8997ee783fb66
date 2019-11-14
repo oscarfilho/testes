@@ -1,0 +1,94 @@
+package br.com.udemy.unidade3;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class ClienteApp {
+	
+	public static String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	public static String usuario = "curso_java";
+	public static String senha = "schema";
+	
+	public static Connection conn = null;
+	
+	public static void connectToDB() throws SQLException
+	{
+		conn = DriverManager.getConnection(url, usuario, senha);
+		conn.setAutoCommit(false);
+	}
+	
+	public static void disconnect() throws SQLException
+	{
+		if(conn != null)
+			conn.close();
+	}
+	
+	public static void inserir(long cpf, String nome, String email) throws SQLException {
+		String sql = "INSERT INTO CLIENTE(cpf, nome, email) VALUES(" +
+					 cpf + ",'" + nome + "', '" + email + "')";
+		Statement stmt = conn.createStatement();
+		
+		stmt.execute(sql);
+		
+		conn.commit();
+	}
+	
+	public static void consultar(long cpf) throws SQLException {
+		String sql = "SELECT * FROM CLIENTE WHERE cpf = " + cpf;
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		
+		while(rs.next()) {
+			System.out.println("Encontrado!\ncpf: " + rs.getInt(1) + 
+					" nome: " + rs.getString(2) + 
+					" email: " + rs.getString(3));
+		}
+	}
+	
+	
+	public static void consultarTodos() throws SQLException {
+		String sql = "SELECT * FROM CLIENTE";
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		
+		int cont = 0;
+		
+		while(rs.next()) {
+			System.out.println("cpf: " + rs.getInt(1) + 
+					" nome: " + rs.getString(2) + 
+					" email: " + rs.getString(3));
+			
+			cont++;
+		}
+		
+		System.out.println("Registros encontrados: " + cont);
+	}
+	
+	public static void editar(long cpf, String nome, String email) throws SQLException {
+		
+		String sql = "UPDATE CLIENTE SET nome = '" + nome + "', email = '" + email + "' " + 
+					 "WHERE cpf = " + cpf;
+		
+		Statement stmt = conn.createStatement();
+		int reg_afetados = stmt.executeUpdate(sql);
+		
+		System.out.println(reg_afetados + " registros afetados!");
+
+		conn.commit();
+	}
+
+	public static void excluir(long cpf) throws SQLException {
+		String sql = "DELETE FROM CLIENTE WHERE cpf = '" + cpf + "'";
+		
+		Statement stmt = conn.createStatement();
+		int reg_afetados = stmt.executeUpdate(sql);
+		
+		
+		
+	}
+}

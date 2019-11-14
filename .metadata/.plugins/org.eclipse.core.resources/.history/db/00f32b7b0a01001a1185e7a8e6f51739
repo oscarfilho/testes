@@ -1,0 +1,20 @@
+package br.com.estudos.ProjetoTestes;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class TestSystem {
+
+	private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+			.createEntityManagerFactory("ProjetoTestes");
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ENTITY_MANAGER_FACTORY.close();
+	}
+	
+	private static void addCustomer(int id, String fname, String lname) {
+		
+	}
+
+}
